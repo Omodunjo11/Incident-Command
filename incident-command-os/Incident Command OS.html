@@ -1,0 +1,2128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Glean Incident Command OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+/* Glean Incident Command OS — Design System */
+
+:root {
+  /* Neutrals — warm, cool-leaning */
+  --bg: oklch(0.985 0.003 80);
+  --surface: #ffffff;
+  --surface-2: oklch(0.975 0.004 80);
+  --surface-3: oklch(0.965 0.005 80);
+  --border: oklch(0.92 0.005 80);
+  --border-strong: oklch(0.86 0.006 80);
+  --ink: oklch(0.22 0.012 250);
+  --ink-2: oklch(0.42 0.012 250);
+  --ink-3: oklch(0.58 0.012 250);
+  --ink-4: oklch(0.72 0.008 250);
+
+  /* Semantic */
+  --red: oklch(0.58 0.19 25);
+  --red-soft: oklch(0.95 0.04 25);
+  --red-border: oklch(0.86 0.09 25);
+  --red-ink: oklch(0.42 0.16 25);
+
+  --orange: oklch(0.72 0.16 55);
+  --orange-soft: oklch(0.96 0.04 65);
+  --orange-border: oklch(0.86 0.09 60);
+  --orange-ink: oklch(0.50 0.14 50);
+
+  --blue: oklch(0.58 0.14 245);
+  --blue-soft: oklch(0.96 0.025 245);
+  --blue-border: oklch(0.86 0.06 245);
+  --blue-ink: oklch(0.42 0.13 245);
+
+  --green: oklch(0.60 0.13 155);
+  --green-soft: oklch(0.96 0.03 155);
+  --green-border: oklch(0.84 0.07 155);
+  --green-ink: oklch(0.42 0.11 155);
+
+  --purple: oklch(0.55 0.14 295);
+  --purple-soft: oklch(0.96 0.03 295);
+  --purple-border: oklch(0.86 0.06 295);
+  --purple-ink: oklch(0.40 0.13 295);
+
+  --shadow-sm: 0 1px 2px rgba(15, 22, 41, 0.04), 0 1px 1px rgba(15, 22, 41, 0.03);
+  --shadow-md: 0 4px 12px rgba(15, 22, 41, 0.06), 0 1px 2px rgba(15, 22, 41, 0.04);
+  --shadow-lg: 0 12px 32px rgba(15, 22, 41, 0.08), 0 2px 6px rgba(15, 22, 41, 0.04);
+
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv11", "ss01";
+}
+
+button { font-family: inherit; cursor: pointer; }
+
+.mono { font-family: var(--font-mono); font-feature-settings: "calt" 0; }
+
+/* App shell */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 24px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.brand-mark {
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, oklch(0.45 0.18 265), oklch(0.55 0.16 285));
+  display: grid; place-items: center;
+  color: white; font-weight: 700; font-size: 13px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.brand-product {
+  color: var(--ink-3);
+  font-weight: 500;
+  font-size: 13px;
+  border-left: 1px solid var(--border-strong);
+  padding-left: 10px;
+  margin-left: 2px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--surface-2);
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.nav button {
+  border: 0;
+  background: transparent;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--ink-2);
+  border-radius: 6px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav button:hover { color: var(--ink); }
+.nav button.active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+.nav .step-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-4);
+  background: var(--bg);
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.nav button.active .step-num { color: var(--ink-2); background: var(--surface-3); }
+
+.topbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.live-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 0 var(--red);
+  animation: pulse 1.8s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 oklch(0.58 0.19 25 / 0.5); }
+  70% { box-shadow: 0 0 0 8px oklch(0.58 0.19 25 / 0); }
+  100% { box-shadow: 0 0 0 0 oklch(0.58 0.19 25 / 0); }
+}
+
+.avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, oklch(0.7 0.1 30), oklch(0.6 0.12 50));
+  color: white;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 600;
+}
+
+/* Page */
+.page {
+  flex: 1;
+  padding: 24px 32px 48px;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Common components */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.card-pad { padding: 20px; }
+
+.kicker {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+h1, h2, h3, h4 { margin: 0; letter-spacing: -0.01em; color: var(--ink); }
+h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+h2 { font-size: 18px; font-weight: 600; }
+h3 { font-size: 15px; font-weight: 600; }
+h4 { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+
+.muted { color: var(--ink-3); }
+.dim { color: var(--ink-4); }
+
+.divider { height: 1px; background: var(--border); border: 0; margin: 16px 0; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--ink);
+  transition: all .15s ease;
+}
+.btn:hover { background: var(--surface-2); border-color: var(--ink-4); }
+.btn-primary {
+  background: var(--ink);
+  color: var(--surface);
+  border-color: var(--ink);
+}
+.btn-primary:hover { background: oklch(0.32 0.012 250); border-color: oklch(0.32 0.012 250); }
+.btn-danger {
+  background: var(--red);
+  color: white;
+  border-color: var(--red);
+}
+.btn-danger:hover { background: oklch(0.52 0.19 25); border-color: oklch(0.52 0.19 25); }
+.btn-ghost { border-color: transparent; background: transparent; }
+.btn-ghost:hover { background: var(--surface-2); }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--ink-2);
+}
+.chip-red { background: var(--red-soft); border-color: var(--red-border); color: var(--red-ink); }
+.chip-orange { background: var(--orange-soft); border-color: var(--orange-border); color: var(--orange-ink); }
+.chip-blue { background: var(--blue-soft); border-color: var(--blue-border); color: var(--blue-ink); }
+.chip-green { background: var(--green-soft); border-color: var(--green-border); color: var(--green-ink); }
+.chip-purple { background: var(--purple-soft); border-color: var(--purple-border); color: var(--purple-ink); }
+
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-4); display: inline-block; }
+.dot-red { background: var(--red); }
+.dot-orange { background: var(--orange); }
+.dot-blue { background: var(--blue); }
+.dot-green { background: var(--green); }
+.dot-purple { background: var(--purple); }
+
+/* Status glyph */
+.glyph {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: inline-grid; place-items: center;
+  flex-shrink: 0;
+}
+.glyph-done { background: var(--green-soft); color: var(--green-ink); border: 1px solid var(--green-border); }
+.glyph-prog { background: var(--blue-soft); color: var(--blue-ink); border: 1px solid var(--blue-border); }
+.glyph-queue { background: var(--surface-2); color: var(--ink-3); border: 1px solid var(--border); }
+.glyph-fail { background: var(--red-soft); color: var(--red-ink); border: 1px solid var(--red-border); }
+
+.spin { animation: spin 2s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Severity banner */
+.sev-banner {
+  background: linear-gradient(180deg, oklch(0.97 0.04 25), oklch(0.99 0.015 25));
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.sev-banner::before {
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--red);
+}
+.sev-tag {
+  background: var(--red);
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+
+/* Stat cards */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  position: relative;
+}
+.stat-label { font-size: 11px; color: var(--ink-3); font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; }
+.stat-value { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin-top: 6px; line-height: 1; }
+.stat-sub { font-size: 12px; color: var(--ink-3); margin-top: 8px; }
+.stat-icon {
+  position: absolute; top: 16px; right: 16px;
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: grid; place-items: center;
+}
+
+/* Section heading */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.section-head h3 + .muted { font-size: 12px; }
+
+/* Misc */
+.row { display: flex; align-items: center; gap: 8px; }
+.col { display: flex; flex-direction: column; }
+.gap-4 { gap: 4px; } .gap-6 { gap: 6px; } .gap-8 { gap: 8px; }
+.gap-12 { gap: 12px; } .gap-16 { gap: 16px; } .gap-24 { gap: 24px; }
+.flex-1 { flex: 1; }
+.spacer { flex: 1; }
+
+/* Confidence bar */
+.conf {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+}
+.conf-bar {
+  width: 64px; height: 4px;
+  background: var(--surface-3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.conf-bar > span { display: block; height: 100%; background: var(--red); }
+
+/* Timeline */
+.tl { position: relative; padding-left: 22px; }
+.tl::before {
+  content: "";
+  position: absolute; left: 7px; top: 6px; bottom: 6px;
+  width: 1px; background: var(--border-strong);
+}
+.tl-item { position: relative; padding-bottom: 14px; }
+.tl-item::before {
+  content: ""; position: absolute; left: -19px; top: 5px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--surface); border: 2px solid var(--ink-3);
+}
+.tl-item.red::before { border-color: var(--red); background: var(--red); }
+.tl-item.orange::before { border-color: var(--orange); background: var(--orange); }
+.tl-item.blue::before { border-color: var(--blue); background: var(--blue); }
+.tl-item.green::before { border-color: var(--green); background: var(--green); }
+
+.tl-time { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+.tl-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-top: 2px; }
+.tl-meta { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+
+/* Citation */
+.cite {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-2);
+}
+.cite:hover { background: var(--surface-3); }
+
+/* Quick action */
+.action-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: all .15s ease;
+}
+.action-row:hover { border-color: var(--ink-4); box-shadow: var(--shadow-sm); }
+.action-rank {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: white;
+  display: grid; place-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* Owner mini */
+.owner-mini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 8px;
+}
+.owner-mini:hover { background: var(--surface-2); }
+.owner-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 600;
+  color: white;
+  flex-shrink: 0;
+}
+
+/* Graph (Screen 2) */
+.graph-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+.graph-toolbar {
+  height: 44px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  background: var(--surface-2);
+}
+
+.graph-canvas {
+  position: relative;
+  height: 640px;
+  background-color: var(--surface);
+  background-image:
+    radial-gradient(circle at 1px 1px, oklch(0.92 0.005 80) 1px, transparent 0);
+  background-size: 22px 22px;
+  overflow: hidden;
+}
+
+.swimlane {
+  position: absolute;
+  top: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.swim-head {
+  position: absolute;
+  top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+.swim-head .kicker { font-size: 10px; }
+.swim-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: var(--ink-3);
+}
+
+.gnode {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all .12s ease;
+  min-width: 150px;
+  max-width: 200px;
+  z-index: 2;
+}
+.gnode:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--ink-4);
+  z-index: 3;
+}
+.gnode.selected {
+  border-color: var(--ink) !important;
+  box-shadow: 0 0 0 3px oklch(0.22 0.012 250 / 0.1), var(--shadow-md);
+  z-index: 4;
+}
+.gnode .gnode-icon {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+.gnode .gnode-label {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gnode .gnode-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  margin-top: 1px;
+}
+
+.gnode.red { border-color: var(--red-border); background: var(--red-soft); }
+.gnode.red .gnode-icon { background: var(--red); color: white; }
+.gnode.red .gnode-label { color: var(--red-ink); }
+
+.gnode.orange { border-color: var(--orange-border); background: oklch(0.99 0.015 60); }
+.gnode.orange .gnode-icon { background: var(--orange); color: white; }
+
+.gnode.blue { border-color: var(--blue-border); }
+.gnode.blue .gnode-icon { background: var(--blue); color: white; }
+
+.gnode.green { border-color: var(--green-border); }
+.gnode.green .gnode-icon { background: var(--green); color: white; }
+
+.gnode.purple { border-color: var(--purple-border); }
+.gnode.purple .gnode-icon { background: var(--purple); color: white; }
+
+.gnode.gray .gnode-icon { background: var(--surface-3); color: var(--ink-2); border: 1px solid var(--border); }
+
+.gnode-mini {
+  min-width: 0;
+  padding: 6px 8px;
+  font-size: 11px;
+}
+.gnode-mini .gnode-icon { width: 18px; height: 18px; font-size: 10px; }
+
+/* SVG edges */
+.edges {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.edge {
+  fill: none;
+  stroke: oklch(0.86 0.006 80);
+  stroke-width: 1.5;
+}
+.edge.dim { stroke: oklch(0.93 0.005 80); }
+.edge.hot { stroke: var(--red); stroke-width: 2; }
+.edge.warn { stroke: var(--orange); stroke-width: 1.75; }
+
+/* Detail panel */
+.detail-panel {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 360px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+  box-shadow: -8px 0 24px rgba(15,22,41,0.04);
+}
+.detail-head {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.detail-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 18px;
+}
+.detail-body section + section { margin-top: 18px; }
+.detail-foot {
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  background: var(--surface-2);
+}
+
+.kv {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 6px 12px;
+  font-size: 12px;
+}
+.kv dt { color: var(--ink-3); }
+.kv dd { margin: 0; color: var(--ink); }
+
+/* Blast radius (mini) */
+.blast {
+  position: relative;
+  height: 220px;
+  background:
+    radial-gradient(circle at center, oklch(0.97 0.04 25 / 0.7) 0%, transparent 60%),
+    var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.blast-ring {
+  position: absolute;
+  border: 1px dashed var(--red-border);
+  border-radius: 50%;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.blast-svc {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+.blast-svc.core {
+  background: var(--red);
+  color: white;
+  border-color: var(--red);
+}
+.blast-svc.affected { border-color: var(--orange-border); background: var(--orange-soft); color: var(--orange-ink); }
+
+/* Workspace columns */
+.ws-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 1100px) {
+  .ws-grid { grid-template-columns: 1fr; }
+}
+
+/* Task row */
+.task {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.task + .task { margin-top: 8px; }
+.task-title { font-size: 13px; font-weight: 500; }
+.task-meta { font-size: 11px; color: var(--ink-3); margin-top: 4px; font-family: var(--font-mono); }
+
+.update-card {
+  background: var(--surface-2);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  padding: 16px;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.55;
+}
+.update-card .label-row {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+}
+.ai-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: linear-gradient(90deg, oklch(0.55 0.15 285), oklch(0.55 0.15 245));
+  color: white;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Hypothesis */
+.hyp {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.hyp + .hyp { margin-top: 10px; }
+.hyp.lead {
+  border-color: var(--red-border);
+  background: linear-gradient(180deg, var(--red-soft), var(--surface));
+}
+.hyp-rank {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-3);
+}
+
+.evidence {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 12px;
+}
+.evidence + .evidence { margin-top: 6px; }
+.evidence-icon {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  display: grid; place-items: center;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+/* Util animation */
+.fade-in { animation: fadeIn .25s ease both; }
+@keyframes fadeIn { from { opacity: 0.001; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* Scrollbars (subtle) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: oklch(0.9 0.005 80); border-radius: 6px; border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: oklch(0.82 0.006 80); }
+
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+// Icons + shared data + small primitives
+// Loaded as Babel script. Exports to window.
+
+// ---------------- ICONS ----------------
+const Icon = {
+  alert: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+      <line x1="12" y1="9" x2="12" y2="13"/>
+      <line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+  ),
+  service: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="8" rx="2"/>
+      <rect x="2" y="14" width="20" height="8" rx="2"/>
+      <line x1="6" y1="6" x2="6.01" y2="6"/>
+      <line x1="6" y1="18" x2="6.01" y2="18"/>
+    </svg>
+  ),
+  deploy: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2v8"/>
+      <path d="m4.93 10.93 1.41 1.41"/>
+      <path d="M2 18h2"/>
+      <path d="M20 18h2"/>
+      <path d="m19.07 10.93-1.41 1.41"/>
+      <path d="M22 22H2"/>
+      <path d="m16 6-4 4-4-4"/>
+      <path d="M16 18a4 4 0 0 0-8 0"/>
+    </svg>
+  ),
+  user: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+  ),
+  doc: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="9" y1="13" x2="15" y2="13"/>
+      <line x1="9" y1="17" x2="15" y2="17"/>
+    </svg>
+  ),
+  bulb: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 18h6"/>
+      <path d="M10 22h4"/>
+      <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 5.5V18h8v-3.5c1.5-1 3-3 3-5.5a7 7 0 0 0-7-7z"/>
+    </svg>
+  ),
+  bolt: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </svg>
+  ),
+  history: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 8v4l3 2"/>
+      <path d="M3.05 11A9 9 0 1 1 12 21"/>
+      <polyline points="3 4 3 10 9 10"/>
+    </svg>
+  ),
+  search: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+  ),
+  arrow: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/>
+      <polyline points="12 5 19 12 12 19"/>
+    </svg>
+  ),
+  check: (s = 12) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  ),
+  x: (s = 12) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  ),
+  loader: (s = 12) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12a9 9 0 1 1-6.22-8.56"/>
+    </svg>
+  ),
+  clock: (s = 12) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+  ),
+  link: (s = 12) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+    </svg>
+  ),
+  send: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="22" y1="2" x2="11" y2="13"/>
+      <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+    </svg>
+  ),
+  plus: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"/>
+      <line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+  ),
+  graph: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6" cy="6" r="2"/>
+      <circle cx="18" cy="6" r="2"/>
+      <circle cx="12" cy="18" r="2"/>
+      <line x1="7.5" y1="7.5" x2="11" y2="16.5"/>
+      <line x1="16.5" y1="7.5" x2="13" y2="16.5"/>
+    </svg>
+  ),
+  cockpit: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="9" rx="1.5"/>
+      <rect x="14" y="3" width="7" height="5" rx="1.5"/>
+      <rect x="14" y="12" width="7" height="9" rx="1.5"/>
+      <rect x="3" y="16" width="7" height="5" rx="1.5"/>
+    </svg>
+  ),
+  workspace: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 11l3 3L22 4"/>
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+    </svg>
+  ),
+  zap: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </svg>
+  ),
+  rollback: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="1 4 1 10 7 10"/>
+      <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+    </svg>
+  ),
+  filter: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+    </svg>
+  ),
+  layers: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+      <polyline points="2 17 12 22 22 17"/>
+      <polyline points="2 12 12 17 22 12"/>
+    </svg>
+  ),
+  slack: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="3"/>
+      <path d="M8 9h8M8 13h6M8 17h4"/>
+    </svg>
+  ),
+  jira: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="4" width="16" height="16" rx="2"/>
+      <path d="M9 9h6v6"/>
+      <path d="M9 15h3"/>
+    </svg>
+  ),
+  chart: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10"/>
+      <line x1="12" y1="20" x2="12" y2="4"/>
+      <line x1="6" y1="20" x2="6" y2="14"/>
+      <line x1="3" y1="20" x2="21" y2="20"/>
+    </svg>
+  ),
+};
+
+// ---------------- DATA ----------------
+const INCIDENT = {
+  id: "INC-2147",
+  title: "API Gateway Timeout Spike",
+  severity: "Sev-1",
+  declaredBy: "Alex Rodriguez",
+  declaredAt: "2:47 PM PT · April 15, 2026",
+  durationMin: 8,
+  impact: "2.3% of API requests timing out",
+  errorRate: "2.3%",
+  errorRateBaseline: "0.04%",
+  customerImpact: "Checkout flow degraded",
+};
+
+const SERVICES = [
+  { id: "svc-api-gw", name: "API Gateway", role: "core", health: "red", reqs: "12.4k/s", err: "8.7%" },
+  { id: "svc-checkout", name: "Checkout Service", role: "downstream", health: "orange", reqs: "1.2k/s", err: "4.1%" },
+  { id: "svc-payment", name: "Payment Processing", role: "downstream", health: "orange", reqs: "820/s", err: "3.2%" },
+  { id: "svc-inventory", name: "Inventory Service", role: "downstream", health: "orange", reqs: "2.1k/s", err: "2.8%" },
+  { id: "svc-session", name: "User Session", role: "downstream", health: "orange", reqs: "3.4k/s", err: "1.9%" },
+  { id: "svc-notif", name: "Notification Service", role: "downstream", health: "orange", reqs: "640/s", err: "1.4%" },
+  { id: "svc-analytics", name: "Analytics Pipeline", role: "downstream", health: "orange", reqs: "1.8k/s", err: "0.9%" },
+  { id: "svc-mobile", name: "Mobile App Backend", role: "downstream", health: "orange", reqs: "5.2k/s", err: "2.1%" },
+];
+
+const CHANGES = [
+  { id: "ch-4521", type: "deploy", label: "Deploy #4521", title: "API Gateway · rate limiter update", time: "15 min ago", suspicion: "high", author: "Sarah Chen" },
+  { id: "ch-892", type: "config", label: "Config #892", title: "Load balancer timeout increased", time: "2 hr ago", suspicion: "medium", author: "Rachel Martinez" },
+  { id: "ch-445", type: "db", label: "Migration #445", title: "Add index to sessions table", time: "4 hr ago", suspicion: "low", author: "David Kim" },
+  { id: "ch-4519", type: "deploy", label: "Deploy #4519", title: "Checkout · validation refactor", time: "5 hr ago", suspicion: "low", author: "Lisa Park" },
+  { id: "ch-880", type: "config", label: "Config #880", title: "Cache TTL doubled", time: "6 hr ago", suspicion: "low" },
+  { id: "ch-4515", type: "deploy", label: "Deploy #4515", title: "Mobile backend · auth refresh", time: "8 hr ago", suspicion: "low" },
+  { id: "ch-flag-322", type: "flag", label: "Flag rollout", title: "new_pricing_v2 → 25%", time: "10 hr ago", suspicion: "low" },
+  { id: "ch-4510", type: "deploy", label: "Deploy #4510", title: "Analytics · pipeline upgrade", time: "12 hr ago", suspicion: "low" },
+];
+
+const OWNERS = [
+  { id: "o-sarah", name: "Sarah Chen", role: "API Gateway Tech Lead", initials: "SC", color: "blue", confidence: 0.96, why: "Authored Deploy #4521 · primary owner of API Gateway", paged: true, pagedAt: "2 min ago" },
+  { id: "o-marcus", name: "Marcus Johnson", role: "Platform SRE · On-call", initials: "MJ", color: "blue", confidence: 0.88, why: "Current on-call rotation · owns gateway infrastructure", paged: true, pagedAt: "8 min ago" },
+  { id: "o-lisa", name: "Lisa Park", role: "Checkout Team Lead", initials: "LP", color: "orange", confidence: 0.74, why: "Owns most-impacted downstream service", paged: false },
+  { id: "o-david", name: "David Kim", role: "Database SRE", initials: "DK", color: "blue", confidence: 0.42, why: "Authored Migration #445 (4 hr ago)", paged: false },
+  { id: "o-rachel", name: "Rachel Martinez", role: "Load Balancer owner", initials: "RM", color: "blue", confidence: 0.38, why: "Authored Config #892 (2 hr ago)", paged: false },
+  { id: "o-james", name: "James Taylor", role: "VP Engineering", initials: "JT", color: "purple", confidence: 1, why: "Sev-1 escalation path", paged: false },
+];
+
+const EVIDENCE = [
+  { id: "ev-runbook", icon: "doc", title: "Runbook: API Gateway Incident Response", source: "Confluence", meta: "Updated 2 mo ago" },
+  { id: "ev-inc2034", icon: "history", title: "INC-2034 — Rate limiter regression", source: "Past incident · 92% similar", meta: "Resolved in 45 min · Jan 12" },
+  { id: "ev-dash", icon: "chart", title: "API Gateway latency dashboard", source: "Grafana", meta: "Auto-opened" },
+  { id: "ev-slack", icon: "slack", title: "#api-gateway · Sarah mentioned rate limiter work", source: "Slack thread · yesterday", meta: '"shipping the new limiter tomorrow"' },
+  { id: "ev-jira", icon: "jira", title: "JIRA-8821 — Deploy approval for #4521", source: "Jira ticket", meta: "Approved by M. Johnson" },
+  { id: "ev-logs", icon: "layers", title: "Error spike correlates with Deploy #4521", source: "Log analysis", meta: "T+0s after deploy" },
+];
+
+const HYPOTHESES = [
+  { id: "h1", confidence: 0.92, title: "Deploy #4521 introduced rate limiting bug", evidence: ["Error spike at T+0s post-deploy", "INC-2034 same root cause", "Slack: rate limiter work mentioned yesterday"], rank: 1 },
+  { id: "h2", confidence: 0.35, title: "Load balancer config cascade with rate limiter", evidence: ["Config #892 changed timeout 2 hr ago", "Could compound with #4521"], rank: 2 },
+  { id: "h3", confidence: 0.12, title: "Database migration #445 side effect", evidence: ["Timing plausible", "Low correlation in metrics"], rank: 3 },
+];
+
+const ACTIONS = [
+  { id: "a-rollback", icon: "rollback", title: "Roll back Deploy #4521", desc: "Highest-impact action · ETA 8 min", priority: "primary", tone: "danger" },
+  { id: "a-page", icon: "user", title: "Page Sarah Chen", desc: "Owner of suspected root cause · 96% match", priority: "primary", tone: "default" },
+  { id: "a-review", icon: "history", title: "Review INC-2034 postmortem", desc: "92% similar · same fix worked in 45 min", priority: "secondary", tone: "default" },
+  { id: "a-shift", icon: "bolt", title: "Shift traffic to backup cluster", desc: "Mitigation while investigating", priority: "secondary", tone: "default" },
+  { id: "a-leadership", icon: "send", title: "Alert leadership", desc: "Sev-1 protocol · auto-drafted", priority: "secondary", tone: "default" },
+];
+
+Object.assign(window, { Icon, INCIDENT, SERVICES, CHANGES, OWNERS, EVIDENCE, HYPOTHESES, ACTIONS });
+
+// ---------------- PRIMITIVES ----------------
+function StatusGlyph({ kind }) {
+  // done / progress / queued / failed
+  if (kind === "done") return <span className="glyph glyph-done">{Icon.check(10)}</span>;
+  if (kind === "progress") return <span className="glyph glyph-prog"><span className="spin" style={{display:"inline-flex"}}>{Icon.loader(10)}</span></span>;
+  if (kind === "queued") return <span className="glyph glyph-queue">{Icon.clock(10)}</span>;
+  if (kind === "failed") return <span className="glyph glyph-fail">{Icon.x(10)}</span>;
+  return <span className="glyph"></span>;
+}
+
+function ConfidenceBar({ value, color = "var(--red)" }) {
+  return (
+    <span className="conf">
+      <span className="conf-bar"><span style={{ width: `${Math.round(value * 100)}%`, background: color }} /></span>
+      <span>{Math.round(value * 100)}%</span>
+    </span>
+  );
+}
+
+function Avatar({ initials, color = "blue", size = 28 }) {
+  const grads = {
+    blue: "linear-gradient(135deg, oklch(0.55 0.13 245), oklch(0.62 0.13 215))",
+    orange: "linear-gradient(135deg, oklch(0.68 0.14 50), oklch(0.72 0.14 30))",
+    purple: "linear-gradient(135deg, oklch(0.55 0.14 295), oklch(0.55 0.14 265))",
+    green: "linear-gradient(135deg, oklch(0.6 0.13 155), oklch(0.6 0.13 175))",
+  };
+  return <span className="owner-avatar" style={{ width: size, height: size, fontSize: size * 0.4, background: grads[color] || grads.blue }}>{initials}</span>;
+}
+
+function Cite({ children }) {
+  return <span className="cite">{Icon.link(9)} {children}</span>;
+}
+
+Object.assign(window, { StatusGlyph, ConfidenceBar, Avatar, Cite });
+
+
+// Screen 1: Incident Cockpit
+function CockpitScreen({ onOpenGraph }) {
+  return (
+    <div className="page fade-in">
+      {/* Severity banner */}
+      <div className="sev-banner">
+        <span className="sev-tag">SEV-1</span>
+        <div className="col gap-4" style={{ flex: 1 }}>
+          <div className="row gap-12">
+            <h1 style={{ fontSize: 22 }}>{INCIDENT.title}</h1>
+            <span className="chip" style={{ background: "white" }}>
+              <span className="mono" style={{ color: "var(--ink-3)" }}>{INCIDENT.id}</span>
+            </span>
+          </div>
+          <div className="row gap-12 muted" style={{ fontSize: 12 }}>
+            <span>Declared by <strong style={{ color: "var(--ink-2)" }}>{INCIDENT.declaredBy}</strong></span>
+            <span className="dim">·</span>
+            <span className="mono">{INCIDENT.declaredAt}</span>
+            <span className="dim">·</span>
+            <span className="row gap-6"><span className="live-dot"></span> {INCIDENT.durationMin} min ago</span>
+          </div>
+        </div>
+        <div className="col gap-4" style={{ alignItems: "flex-end" }}>
+          <span className="kicker">Error rate</span>
+          <span style={{ fontSize: 28, fontWeight: 600, color: "var(--red-ink)", lineHeight: 1, fontFamily: "var(--font-mono)" }}>{INCIDENT.errorRate}</span>
+          <span className="dim mono" style={{ fontSize: 11 }}>baseline {INCIDENT.errorRateBaseline}</span>
+        </div>
+      </div>
+
+      <div style={{ height: 16 }} />
+
+      {/* Stat grid */}
+      <div className="stat-grid">
+        <Stat
+          label="Impacted services"
+          value="8"
+          sub="1 core · 7 downstream"
+          color="orange"
+          icon={Icon.service(14)}
+        />
+        <Stat
+          label="Recent changes"
+          value="12"
+          sub="1 high suspicion · 1 medium"
+          color="orange"
+          icon={Icon.deploy(14)}
+        />
+        <Stat
+          label="Likely owners"
+          value="6"
+          sub="2 paged · 4 standby"
+          color="blue"
+          icon={Icon.user(14)}
+        />
+        <Stat
+          label="Similar incidents"
+          value="3"
+          sub="INC-2034 · 92% match"
+          color="purple"
+          icon={Icon.history(14)}
+        />
+      </div>
+
+      <div style={{ height: 24 }} />
+
+      {/* Two-column row */}
+      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 20 }}>
+        {/* Blast radius */}
+        <div className="card card-pad">
+          <div className="section-head">
+            <div className="col gap-4">
+              <h3>Blast radius</h3>
+              <span className="muted" style={{ fontSize: 12 }}>Live propagation map · refreshed 4s ago</span>
+            </div>
+            <button className="btn btn-sm btn-ghost" onClick={onOpenGraph}>
+              Full graph {Icon.arrow(11)}
+            </button>
+          </div>
+          <BlastRadius />
+        </div>
+
+        {/* Recommended actions */}
+        <div className="card card-pad">
+          <div className="section-head">
+            <div className="col gap-4">
+              <h3>Recommended actions</h3>
+              <span className="muted" style={{ fontSize: 12 }}>Ranked by impact · <span className="ai-badge" style={{ fontSize: 9 }}>GLEAN AI</span></span>
+            </div>
+          </div>
+          <div className="col gap-8">
+            {ACTIONS.slice(0, 3).map((a, i) => (
+              <ActionRow key={a.id} action={a} rank={i + 1} />
+            ))}
+          </div>
+          <hr className="divider" />
+          <div className="row gap-8">
+            <button className="btn btn-primary" onClick={onOpenGraph} style={{ flex: 1, justifyContent: "center" }}>
+              {Icon.graph(13)} Open Incident Graph
+            </button>
+            <button className="btn">{Icon.plus(13)} Add action</button>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ height: 20 }} />
+
+      {/* Lower row: changes + owners */}
+      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 20 }}>
+        <div className="card card-pad">
+          <div className="section-head">
+            <div className="col gap-4">
+              <h3>Suspicious changes</h3>
+              <span className="muted" style={{ fontSize: 12 }}>2 of 12 flagged · sorted by suspicion</span>
+            </div>
+            <span className="chip chip-orange">{Icon.alert(10)} Review needed</span>
+          </div>
+          <div className="col gap-8">
+            {CHANGES.slice(0, 4).map(c => <ChangeRow key={c.id} change={c} />)}
+          </div>
+        </div>
+
+        <div className="card card-pad">
+          <div className="section-head">
+            <div className="col gap-4">
+              <h3>Likely owners</h3>
+              <span className="muted" style={{ fontSize: 12 }}>Surfaced from code, deploys, on-call</span>
+            </div>
+          </div>
+          <div className="col" style={{ gap: 2 }}>
+            {OWNERS.slice(0, 5).map(o => <OwnerRow key={o.id} owner={o} />)}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Stat({ label, value, sub, color, icon }) {
+  const bg = {
+    orange: "var(--orange-soft)", blue: "var(--blue-soft)",
+    red: "var(--red-soft)", purple: "var(--purple-soft)", green: "var(--green-soft)",
+  }[color] || "var(--surface-2)";
+  const ink = {
+    orange: "var(--orange-ink)", blue: "var(--blue-ink)",
+    red: "var(--red-ink)", purple: "var(--purple-ink)", green: "var(--green-ink)",
+  }[color] || "var(--ink-2)";
+  return (
+    <div className="stat">
+      <div className="stat-icon" style={{ background: bg, color: ink }}>{icon}</div>
+      <div className="stat-label">{label}</div>
+      <div className="stat-value">{value}</div>
+      <div className="stat-sub">{sub}</div>
+    </div>
+  );
+}
+
+function ActionRow({ action, rank }) {
+  const tone = action.tone === "danger" ? "btn-danger" : "btn";
+  return (
+    <div className="action-row">
+      <span className="action-rank">{rank}</span>
+      <div className="col gap-4" style={{ flex: 1 }}>
+        <div className="row gap-8">
+          <span style={{ color: action.tone === "danger" ? "var(--red-ink)" : "var(--ink-2)" }}>
+            {Icon[action.icon](14)}
+          </span>
+          <span style={{ fontSize: 13, fontWeight: 500 }}>{action.title}</span>
+        </div>
+        <span className="muted" style={{ fontSize: 12 }}>{action.desc}</span>
+      </div>
+      <button className={`btn btn-sm ${tone}`}>
+        {action.tone === "danger" ? "Roll back" : "Run"}
+      </button>
+    </div>
+  );
+}
+
+function ChangeRow({ change }) {
+  const sus = change.suspicion;
+  const susChip = sus === "high" ? "chip-red" : sus === "medium" ? "chip-orange" : "chip";
+  const susLabel = sus === "high" ? "High suspicion" : sus === "medium" ? "Watch" : "Low";
+  const typeIcon = { deploy: Icon.deploy(12), config: Icon.bolt(12), db: Icon.layers(12), flag: Icon.filter(12) }[change.type] || Icon.deploy(12);
+  return (
+    <div className="row gap-12" style={{ padding: "10px 12px", border: "1px solid var(--border)", borderRadius: 8, background: "var(--surface)" }}>
+      <span style={{ width: 24, height: 24, borderRadius: 6, background: "var(--surface-2)", border: "1px solid var(--border)", display: "grid", placeItems: "center", color: "var(--ink-2)" }}>{typeIcon}</span>
+      <div className="col gap-4" style={{ flex: 1, minWidth: 0 }}>
+        <div className="row gap-8" style={{ flexWrap: "wrap" }}>
+          <span className="mono" style={{ fontSize: 12, fontWeight: 500 }}>{change.label}</span>
+          <span className="dim">·</span>
+          <span style={{ fontSize: 12, color: "var(--ink-2)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{change.title}</span>
+        </div>
+        <div className="row gap-8 muted" style={{ fontSize: 11 }}>
+          <span className="mono">{change.time}</span>
+          {change.author && <><span className="dim">·</span><span>{change.author}</span></>}
+        </div>
+      </div>
+      <span className={`chip ${susChip}`}>{susLabel}</span>
+    </div>
+  );
+}
+
+function OwnerRow({ owner }) {
+  return (
+    <div className="owner-mini">
+      <Avatar initials={owner.initials} color={owner.color} />
+      <div className="col gap-4" style={{ flex: 1, minWidth: 0 }}>
+        <div className="row gap-8">
+          <span style={{ fontSize: 13, fontWeight: 500 }}>{owner.name}</span>
+          {owner.paged && <span className="chip chip-green" style={{ padding: "1px 6px", fontSize: 10 }}>{Icon.check(9)} Paged</span>}
+        </div>
+        <span className="muted" style={{ fontSize: 11 }}>{owner.role}</span>
+      </div>
+      <ConfidenceBar value={owner.confidence} color={owner.confidence > 0.7 ? "var(--red)" : owner.confidence > 0.4 ? "var(--orange)" : "var(--ink-3)"} />
+    </div>
+  );
+}
+
+function BlastRadius() {
+  // Custom positioned mini-map; API Gateway in center, services around
+  const items = [
+    { name: "API Gateway", core: true, x: 50, y: 50 },
+    { name: "Checkout", x: 22, y: 22, sev: "high" },
+    { name: "Payment", x: 78, y: 22, sev: "high" },
+    { name: "Inventory", x: 14, y: 50, sev: "med" },
+    { name: "Mobile BE", x: 86, y: 50, sev: "high" },
+    { name: "Sessions", x: 22, y: 78, sev: "med" },
+    { name: "Notifications", x: 50, y: 86, sev: "low" },
+    { name: "Analytics", x: 78, y: 78, sev: "low" },
+  ];
+  return (
+    <div className="blast">
+      <div className="blast-ring" style={{ width: 90, height: 90 }} />
+      <div className="blast-ring" style={{ width: 200, height: 200 }} />
+      <div className="blast-ring" style={{ width: 320, height: 320 }} />
+      <svg width="100%" height="100%" style={{ position: "absolute", inset: 0 }} preserveAspectRatio="none">
+        {items.filter(i => !i.core).map((s, i) => (
+          <line key={i} x1="50%" y1="50%" x2={`${s.x}%`} y2={`${s.y}%`} stroke="oklch(0.86 0.09 25)" strokeWidth="1" strokeDasharray="3 3" opacity="0.6" />
+        ))}
+      </svg>
+      {items.map((s, i) => (
+        <div key={i} className={`blast-svc ${s.core ? "core" : "affected"}`} style={{ left: `${s.x}%`, top: `${s.y}%` }}>
+          {s.core && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "white" }} />}
+          {!s.core && <span className={`dot dot-${s.sev === "high" ? "red" : s.sev === "med" ? "orange" : "blue"}`} />}
+          {s.name}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+window.CockpitScreen = CockpitScreen;
+
+
+// Screen 2: Incident Graph (HERO)
+// Left-to-right swimlane flow: Incident → Services → Changes → Owners → Evidence → Hypotheses → Actions
+
+const LANES = [
+  { id: "incident", title: "Incident", count: 1, x: 60 },
+  { id: "services", title: "Impacted services", count: 8, x: 220 },
+  { id: "changes", title: "Recent changes", count: 12, x: 410 },
+  { id: "owners", title: "Owners", count: 6, x: 600 },
+  { id: "evidence", title: "Evidence", count: 6, x: 790 },
+  { id: "hypotheses", title: "Hypotheses", count: 3, x: 980 },
+  { id: "actions", title: "Actions", count: 5, x: 1170 },
+];
+
+// Node positions per lane — y values within canvas height (~600 usable)
+const NODES = [
+  // Incident
+  { id: "n-incident", lane: "incident", color: "red", x: 60, y: 280, label: "API Gateway Timeout", sub: "Sev-1 · 8m", icon: "alert", size: "lg", refId: "INC-2147" },
+
+  // Services
+  { id: "n-svc-api", lane: "services", color: "red", x: 220, y: 80, label: "API Gateway", sub: "8.7% err", icon: "service" },
+  { id: "n-svc-checkout", lane: "services", color: "orange", x: 220, y: 140, label: "Checkout", sub: "4.1% err", icon: "service", mini: true },
+  { id: "n-svc-payment", lane: "services", color: "orange", x: 220, y: 195, label: "Payment", sub: "3.2% err", icon: "service", mini: true },
+  { id: "n-svc-inventory", lane: "services", color: "orange", x: 220, y: 250, label: "Inventory", sub: "2.8% err", icon: "service", mini: true },
+  { id: "n-svc-mobile", lane: "services", color: "orange", x: 220, y: 305, label: "Mobile Backend", sub: "2.1% err", icon: "service", mini: true },
+  { id: "n-svc-session", lane: "services", color: "orange", x: 220, y: 360, label: "User Session", sub: "1.9% err", icon: "service", mini: true },
+  { id: "n-svc-notif", lane: "services", color: "orange", x: 220, y: 415, label: "Notifications", sub: "1.4% err", icon: "service", mini: true },
+  { id: "n-svc-analytics", lane: "services", color: "orange", x: 220, y: 470, label: "Analytics", sub: "0.9% err", icon: "service", mini: true },
+
+  // Changes
+  { id: "n-ch-4521", lane: "changes", color: "red", x: 410, y: 100, label: "Deploy #4521", sub: "15 min ago", icon: "deploy" },
+  { id: "n-ch-892", lane: "changes", color: "orange", x: 410, y: 175, label: "Config #892", sub: "2 hr ago", icon: "bolt", mini: true },
+  { id: "n-ch-445", lane: "changes", color: "gray", x: 410, y: 230, label: "Migration #445", sub: "4 hr ago", icon: "layers", mini: true },
+  { id: "n-ch-4519", lane: "changes", color: "gray", x: 410, y: 285, label: "Deploy #4519", sub: "5 hr ago", icon: "deploy", mini: true },
+  { id: "n-ch-880", lane: "changes", color: "gray", x: 410, y: 340, label: "Config #880", sub: "6 hr ago", icon: "bolt", mini: true },
+  { id: "n-ch-flag", lane: "changes", color: "gray", x: 410, y: 395, label: "Flag rollout", sub: "10 hr ago", icon: "filter", mini: true },
+  { id: "n-ch-more", lane: "changes", color: "gray", x: 410, y: 450, label: "+6 more", sub: "view all", icon: "deploy", mini: true, faded: true },
+
+  // Owners
+  { id: "n-o-sarah", lane: "owners", color: "red", x: 600, y: 100, label: "Sarah Chen", sub: "API GW Lead · 96%", icon: "user" },
+  { id: "n-o-marcus", lane: "owners", color: "blue", x: 600, y: 175, label: "Marcus Johnson", sub: "Platform SRE · 88%", icon: "user", mini: true },
+  { id: "n-o-lisa", lane: "owners", color: "orange", x: 600, y: 230, label: "Lisa Park", sub: "Checkout · 74%", icon: "user", mini: true },
+  { id: "n-o-david", lane: "owners", color: "blue", x: 600, y: 285, label: "David Kim", sub: "DB SRE · 42%", icon: "user", mini: true },
+  { id: "n-o-rachel", lane: "owners", color: "blue", x: 600, y: 340, label: "Rachel Martinez", sub: "LB · 38%", icon: "user", mini: true },
+  { id: "n-o-james", lane: "owners", color: "purple", x: 600, y: 395, label: "James Taylor", sub: "VP Eng · escalation", icon: "user", mini: true },
+
+  // Evidence
+  { id: "n-ev-inc2034", lane: "evidence", color: "purple", x: 790, y: 100, label: "INC-2034", sub: "92% similar", icon: "history" },
+  { id: "n-ev-runbook", lane: "evidence", color: "blue", x: 790, y: 175, label: "Runbook", sub: "API GW response", icon: "doc", mini: true },
+  { id: "n-ev-slack", lane: "evidence", color: "blue", x: 790, y: 230, label: "Slack: rate limiter", sub: "yesterday", icon: "slack", mini: true },
+  { id: "n-ev-jira", lane: "evidence", color: "blue", x: 790, y: 285, label: "JIRA-8821", sub: "Deploy approval", icon: "jira", mini: true },
+  { id: "n-ev-dash", lane: "evidence", color: "blue", x: 790, y: 340, label: "Latency dashboard", sub: "Grafana", icon: "chart", mini: true },
+  { id: "n-ev-logs", lane: "evidence", color: "blue", x: 790, y: 395, label: "Log correlation", sub: "T+0s spike", icon: "layers", mini: true },
+
+  // Hypotheses
+  { id: "n-h1", lane: "hypotheses", color: "red", x: 980, y: 140, label: "Rate limiter bug", sub: "92% confidence", icon: "bulb" },
+  { id: "n-h2", lane: "hypotheses", color: "orange", x: 980, y: 230, label: "LB config cascade", sub: "35% confidence", icon: "bulb", mini: true },
+  { id: "n-h3", lane: "hypotheses", color: "gray", x: 980, y: 305, label: "DB migration", sub: "12% confidence", icon: "bulb", mini: true },
+
+  // Actions
+  { id: "n-a-rollback", lane: "actions", color: "red", x: 1170, y: 140, label: "Roll back #4521", sub: "ETA 8 min", icon: "rollback" },
+  { id: "n-a-page", lane: "actions", color: "blue", x: 1170, y: 215, label: "Page Sarah", sub: "Owner · 96%", icon: "user", mini: true },
+  { id: "n-a-shift", lane: "actions", color: "blue", x: 1170, y: 270, label: "Shift traffic", sub: "Backup cluster", icon: "bolt", mini: true },
+  { id: "n-a-leadership", lane: "actions", color: "blue", x: 1170, y: 325, label: "Alert leadership", sub: "Sev-1 protocol", icon: "send", mini: true },
+];
+
+const EDGES = [
+  // incident → services (hot to api gw, warm to others)
+  { from: "n-incident", to: "n-svc-api", kind: "hot" },
+  { from: "n-incident", to: "n-svc-checkout", kind: "warn" },
+  { from: "n-incident", to: "n-svc-payment", kind: "warn" },
+  { from: "n-incident", to: "n-svc-inventory", kind: "dim" },
+  { from: "n-incident", to: "n-svc-mobile", kind: "warn" },
+  { from: "n-incident", to: "n-svc-session", kind: "dim" },
+  { from: "n-incident", to: "n-svc-notif", kind: "dim" },
+  { from: "n-incident", to: "n-svc-analytics", kind: "dim" },
+  // services → changes (api gw owns deploy 4521 + config 892)
+  { from: "n-svc-api", to: "n-ch-4521", kind: "hot" },
+  { from: "n-svc-api", to: "n-ch-892", kind: "warn" },
+  { from: "n-svc-checkout", to: "n-ch-4519", kind: "dim" },
+  { from: "n-svc-session", to: "n-ch-445", kind: "dim" },
+  { from: "n-svc-mobile", to: "n-ch-880", kind: "dim" },
+  { from: "n-svc-analytics", to: "n-ch-flag", kind: "dim" },
+  // changes → owners
+  { from: "n-ch-4521", to: "n-o-sarah", kind: "hot" },
+  { from: "n-ch-4521", to: "n-o-marcus", kind: "warn" },
+  { from: "n-ch-892", to: "n-o-rachel", kind: "dim" },
+  { from: "n-ch-445", to: "n-o-david", kind: "dim" },
+  { from: "n-svc-checkout", to: "n-o-lisa", kind: "warn" },
+  { from: "n-incident", to: "n-o-james", kind: "dim" },
+  // owners/changes → evidence
+  { from: "n-ch-4521", to: "n-ev-inc2034", kind: "hot" },
+  { from: "n-ch-4521", to: "n-ev-jira", kind: "warn" },
+  { from: "n-ch-4521", to: "n-ev-logs", kind: "hot" },
+  { from: "n-o-sarah", to: "n-ev-slack", kind: "warn" },
+  { from: "n-svc-api", to: "n-ev-runbook", kind: "dim" },
+  { from: "n-svc-api", to: "n-ev-dash", kind: "dim" },
+  // evidence → hypotheses
+  { from: "n-ev-inc2034", to: "n-h1", kind: "hot" },
+  { from: "n-ev-logs", to: "n-h1", kind: "hot" },
+  { from: "n-ev-slack", to: "n-h1", kind: "warn" },
+  { from: "n-ev-jira", to: "n-h1", kind: "warn" },
+  { from: "n-ch-892", to: "n-h2", kind: "warn" },
+  { from: "n-ev-runbook", to: "n-h2", kind: "dim" },
+  { from: "n-ch-445", to: "n-h3", kind: "dim" },
+  // hypotheses → actions
+  { from: "n-h1", to: "n-a-rollback", kind: "hot" },
+  { from: "n-h1", to: "n-a-page", kind: "hot" },
+  { from: "n-h1", to: "n-a-shift", kind: "warn" },
+  { from: "n-h2", to: "n-a-shift", kind: "dim" },
+  { from: "n-incident", to: "n-a-leadership", kind: "dim" },
+];
+
+function GraphScreen({ onOpenWorkspace }) {
+  const [selectedId, setSelectedId] = React.useState("n-ch-4521");
+  const [hoveredId, setHoveredId] = React.useState(null);
+  const [filter, setFilter] = React.useState("all");
+
+  const selected = NODES.find(n => n.id === selectedId);
+
+  // Determine "active" set: selection + neighbors
+  const activeIds = React.useMemo(() => {
+    const target = hoveredId || selectedId;
+    if (!target) return new Set();
+    const set = new Set([target]);
+    EDGES.forEach(e => { if (e.from === target) set.add(e.to); if (e.to === target) set.add(e.from); });
+    return set;
+  }, [hoveredId, selectedId]);
+
+  return (
+    <div className="page fade-in" style={{ paddingTop: 16 }}>
+      {/* Header strip */}
+      <div className="row gap-12" style={{ marginBottom: 12 }}>
+        <span className="sev-tag">SEV-1</span>
+        <h1 style={{ fontSize: 18 }}>{INCIDENT.title}</h1>
+        <span className="mono muted" style={{ fontSize: 12 }}>{INCIDENT.id}</span>
+        <span className="dim">·</span>
+        <span className="row gap-6 muted" style={{ fontSize: 12 }}><span className="live-dot" /> {INCIDENT.durationMin} min ago</span>
+        <span className="spacer" />
+        <button className="btn btn-primary" onClick={onOpenWorkspace}>
+          Coordinate response {Icon.arrow(12)}
+        </button>
+      </div>
+
+      <div className="graph-wrap">
+        {/* Toolbar */}
+        <div className="graph-toolbar">
+          <span className="row gap-8" style={{ color: "var(--ink-2)", fontWeight: 500, fontSize: 13 }}>
+            {Icon.graph(13)} Incident Graph
+          </span>
+          <span className="dim">·</span>
+          <span className="muted" style={{ fontSize: 12 }}>36 nodes · 41 relationships · assembled in 87s</span>
+          <span className="spacer" />
+          <div className="row gap-6">
+            {[
+              { id: "all", label: "All" },
+              { id: "hot", label: "Critical path" },
+              { id: "owners", label: "Owners only" },
+            ].map(f => (
+              <button
+                key={f.id}
+                className={`btn btn-sm ${filter === f.id ? "btn-primary" : ""}`}
+                onClick={() => setFilter(f.id)}
+                style={filter !== f.id ? { background: "transparent", borderColor: "transparent", color: "var(--ink-2)" } : {}}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+          <span className="dim">·</span>
+          <div className="row gap-12 muted" style={{ fontSize: 11 }}>
+            <span className="row gap-4"><span className="dot dot-red" /> Critical</span>
+            <span className="row gap-4"><span className="dot dot-orange" /> Suspicious</span>
+            <span className="row gap-4"><span className="dot dot-blue" /> Info</span>
+            <span className="row gap-4"><span className="dot dot-purple" /> Historical</span>
+          </div>
+        </div>
+
+        {/* Canvas */}
+        <div className="graph-canvas" style={{ paddingRight: selected ? 360 : 0, transition: "padding .2s ease" }}>
+          {/* Lane headers */}
+          {LANES.map(l => (
+            <div key={l.id} className="swim-head" style={{ left: l.x, transform: "translateX(-50%)" }}>
+              <span className="kicker">{l.title}</span>
+              <span className="swim-count">{l.count}</span>
+            </div>
+          ))}
+
+          {/* Edges (SVG) */}
+          <svg className="edges" width="100%" height="100%">
+            <defs>
+              <marker id="arrow-dim" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10" fill="oklch(0.86 0.006 80)" />
+              </marker>
+              <marker id="arrow-hot" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10" fill="oklch(0.58 0.19 25)" />
+              </marker>
+              <marker id="arrow-warn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10" fill="oklch(0.72 0.16 55)" />
+              </marker>
+            </defs>
+            {EDGES.map((e, i) => {
+              const a = NODES.find(n => n.id === e.from);
+              const b = NODES.find(n => n.id === e.to);
+              if (!a || !b) return null;
+              // Origin is right-edge of source, target is left-edge
+              const x1 = a.x + (a.size === "lg" ? 70 : a.mini ? 60 : 70);
+              const y1 = a.y;
+              const x2 = b.x - (b.mini ? 60 : 70);
+              const y2 = b.y;
+              const cx = (x1 + x2) / 2;
+              const dActive = activeIds.size && (activeIds.has(e.from) && activeIds.has(e.to));
+              const cls = `edge ${e.kind}${dActive ? "" : (activeIds.size ? " dim" : "")}`;
+              const marker = e.kind === "hot" ? "url(#arrow-hot)" : e.kind === "warn" ? "url(#arrow-warn)" : "url(#arrow-dim)";
+              return (
+                <path
+                  key={i}
+                  className={cls}
+                  d={`M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`}
+                  markerEnd={marker}
+                  opacity={activeIds.size && !dActive ? 0.25 : 1}
+                />
+              );
+            })}
+          </svg>
+
+          {/* Nodes */}
+          {NODES.map(n => (
+            <GraphNode
+              key={n.id}
+              node={n}
+              selected={selectedId === n.id}
+              dimmed={activeIds.size && !activeIds.has(n.id)}
+              onSelect={() => setSelectedId(n.id)}
+              onHover={setHoveredId}
+            />
+          ))}
+
+          {/* Detail panel */}
+          {selected && (
+            <DetailPanel node={selected} onClose={() => setSelectedId(null)} />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GraphNode({ node, selected, dimmed, onSelect, onHover }) {
+  const w = node.size === "lg" ? 140 : node.mini ? 120 : 140;
+  return (
+    <div
+      className={`gnode ${node.color} ${node.mini ? "gnode-mini" : ""} ${selected ? "selected" : ""}`}
+      style={{
+        left: node.x - w / 2,
+        top: node.y - (node.mini ? 16 : 22),
+        width: w,
+        opacity: dimmed ? 0.35 : 1,
+        transition: "opacity .15s ease",
+      }}
+      onClick={onSelect}
+      onMouseEnter={() => onHover(node.id)}
+      onMouseLeave={() => onHover(null)}
+    >
+      <span className="gnode-icon">{Icon[node.icon] ? Icon[node.icon](node.mini ? 11 : 12) : null}</span>
+      <div className="col" style={{ minWidth: 0, flex: 1 }}>
+        <span className="gnode-label">{node.label}</span>
+        {node.sub && <span className="gnode-sub">{node.sub}</span>}
+      </div>
+    </div>
+  );
+}
+
+function DetailPanel({ node, onClose }) {
+  // Map node to detail payload
+  const detail = getNodeDetail(node);
+  return (
+    <div className="detail-panel">
+      <div className="detail-head">
+        <span className="gnode-icon" style={{ width: 32, height: 32, background: `var(--${node.color === "gray" ? "surface-2" : node.color}-soft)`, color: `var(--${node.color === "gray" ? "ink-2" : node.color}-ink)`, border: `1px solid var(--${node.color === "gray" ? "border" : node.color}-border)`, borderRadius: 8 }}>
+          {Icon[node.icon](16)}
+        </span>
+        <div className="col gap-4" style={{ flex: 1 }}>
+          <div className="row gap-8">
+            <span className="kicker" style={{ fontSize: 10 }}>{detail.lane}</span>
+          </div>
+          <h3 style={{ fontSize: 15 }}>{detail.title}</h3>
+          {detail.subtitle && <span className="muted mono" style={{ fontSize: 11 }}>{detail.subtitle}</span>}
+        </div>
+        <button className="btn btn-sm btn-ghost" onClick={onClose} aria-label="Close">{Icon.x(12)}</button>
+      </div>
+
+      <div className="detail-body">
+        {detail.confidence !== undefined && (
+          <section>
+            <span className="kicker">Confidence</span>
+            <div style={{ marginTop: 8 }}>
+              <ConfidenceBar value={detail.confidence} color="var(--red)" />
+            </div>
+          </section>
+        )}
+
+        {detail.kv && (
+          <section>
+            <span className="kicker">Details</span>
+            <dl className="kv" style={{ marginTop: 8 }}>
+              {detail.kv.map((row, i) => <React.Fragment key={i}><dt>{row[0]}</dt><dd>{row[1]}</dd></React.Fragment>)}
+            </dl>
+          </section>
+        )}
+
+        {detail.evidence && (
+          <section>
+            <span className="kicker">Why Glean flagged this</span>
+            <ul style={{ margin: "10px 0 0", paddingLeft: 0, listStyle: "none" }}>
+              {detail.evidence.map((e, i) => (
+                <li key={i} style={{ display: "flex", gap: 8, marginBottom: 6, fontSize: 12 }}>
+                  <span style={{ color: "var(--red-ink)", marginTop: 4 }}>•</span>
+                  <span>{e}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {detail.citations && (
+          <section>
+            <span className="kicker">Citations</span>
+            <div className="row gap-6" style={{ flexWrap: "wrap", marginTop: 8 }}>
+              {detail.citations.map((c, i) => <Cite key={i}>{c}</Cite>)}
+            </div>
+          </section>
+        )}
+
+        {detail.expert && (
+          <section>
+            <span className="kicker">Expert insight</span>
+            <div style={{ marginTop: 8, padding: 12, background: "var(--surface-2)", borderRadius: 8, border: "1px solid var(--border)", fontSize: 12, fontStyle: "italic", color: "var(--ink-2)" }}>
+              "{detail.expert.quote}"
+              <div style={{ fontStyle: "normal", marginTop: 6, fontSize: 11, color: "var(--ink-3)" }}>— {detail.expert.author}, {detail.expert.source}</div>
+            </div>
+          </section>
+        )}
+      </div>
+
+      <div className="detail-foot">
+        {detail.actions?.map((a, i) => (
+          <button key={i} className={`btn btn-sm ${a.primary ? "btn-primary" : ""}`} style={a.danger ? { background: "var(--red)", color: "white", borderColor: "var(--red)" } : {}}>
+            {a.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function getNodeDetail(node) {
+  const map = {
+    "n-incident": {
+      lane: "Incident", title: INCIDENT.title, subtitle: INCIDENT.id,
+      kv: [
+        ["Severity", "Sev-1"], ["Declared", INCIDENT.declaredAt],
+        ["Declared by", INCIDENT.declaredBy], ["Duration", `${INCIDENT.durationMin} min`],
+        ["Error rate", `${INCIDENT.errorRate} (baseline ${INCIDENT.errorRateBaseline})`],
+        ["Customer impact", INCIDENT.customerImpact],
+      ],
+      actions: [{ label: "Open response workspace", primary: true }, { label: "Subscribe" }],
+    },
+    "n-ch-4521": {
+      lane: "Recent change · deploy", title: "Deploy #4521 — API Gateway", subtitle: "rate limiter update",
+      confidence: 0.92,
+      kv: [
+        ["Author", "Sarah Chen"], ["Deployed", "2:32 PM PT (15 min ago)"],
+        ["Repo", "api-gateway"], ["Branch", "feat/rate-limiter-v2"],
+        ["Approvers", "M. Johnson"], ["Pipeline", "deploy-prod-4521 ✓"],
+      ],
+      evidence: [
+        "Error spike began at 2:32:14 PM — exact deploy timestamp",
+        "INC-2034 (Jan 12) had identical timing pattern after a rate limiter change",
+        "Sarah Chen mentioned this work in #api-gateway yesterday",
+        "Deploy approval ticket JIRA-8821 noted untested edge case",
+      ],
+      citations: ["INC-2034", "JIRA-8821", "deploy-prod-4521", "#api-gateway"],
+      expert: { quote: "shipping the new limiter tomorrow — should clean up the 429 storm we saw last week", author: "Sarah Chen", source: "#api-gateway · yesterday 4:12 PM" },
+      actions: [{ label: "Roll back deploy", danger: true }, { label: "View diff" }],
+    },
+    "n-o-sarah": {
+      lane: "Owner", title: "Sarah Chen", subtitle: "API Gateway Tech Lead",
+      confidence: 0.96,
+      kv: [
+        ["Team", "Platform / API"], ["Timezone", "PT"],
+        ["Slack", "@sarahchen"], ["On-call", "No (paged anyway)"],
+        ["Status", "Paged · responded 2 min ago"],
+      ],
+      evidence: [
+        "Authored Deploy #4521 (suspected root cause)",
+        "Primary code owner of api-gateway repo (62% commits last 90d)",
+        "Resolved INC-2034 (similar past incident) in 2024",
+        "Recent Slack activity in #api-gateway about rate limiter",
+      ],
+      citations: ["api-gateway/CODEOWNERS", "INC-2034", "#api-gateway"],
+      actions: [{ label: "Open Slack DM", primary: true }, { label: "Call" }],
+    },
+    "n-ev-inc2034": {
+      lane: "Past incident", title: "INC-2034 — Rate limiter regression", subtitle: "92% similarity",
+      kv: [
+        ["When", "January 12, 2026"], ["Severity", "Sev-1"],
+        ["Resolved in", "45 minutes"], ["Resolution", "Roll back deploy"],
+        ["Root cause", "Rate limiter misconfigured"],
+      ],
+      evidence: [
+        "Same service (API Gateway)",
+        "Same error pattern (timeout cascade)",
+        "Same fix worked: rollback restored service",
+        "Postmortem flagged this exact regression class",
+      ],
+      citations: ["INC-2034 postmortem"],
+      actions: [{ label: "Open postmortem", primary: true }, { label: "View timeline" }],
+    },
+    "n-h1": {
+      lane: "Hypothesis · 1 of 3", title: "Deploy #4521 introduced rate limiting bug", subtitle: "Lead hypothesis",
+      confidence: 0.92,
+      evidence: [
+        "Error spike at T+0s after deploy (exact correlation)",
+        "INC-2034 had same root cause; same fix worked",
+        "Slack thread shows owner working on rate limiter recently",
+        "Deploy approval flagged 'untested edge case'",
+      ],
+      citations: ["INC-2034", "JIRA-8821", "logs:gateway-prod"],
+      actions: [{ label: "Promote to root cause", primary: true }, { label: "Add evidence" }],
+    },
+    "n-a-rollback": {
+      lane: "Action · primary", title: "Roll back Deploy #4521", subtitle: "Estimated 8 minutes",
+      kv: [
+        ["Target", "api-gateway prod"], ["Rollback to", "#4519 (last known good)"],
+        ["Approvals", "1 of 2 needed"], ["Risk", "Low — rollback tested"],
+      ],
+      evidence: [
+        "Highest expected impact on incident resolution",
+        "INC-2034 resolved with same action",
+        "Pipeline already configured for one-click rollback",
+      ],
+      actions: [{ label: "Initiate rollback", danger: true }, { label: "Request approval" }],
+    },
+  };
+  // Generic fallback for nodes without a detailed entry
+  return map[node.id] || {
+    lane: LANES.find(l => l.id === node.lane)?.title || "Node",
+    title: node.label,
+    subtitle: node.sub,
+    kv: [["ID", node.id], ["Type", node.lane]],
+    evidence: ["Connected to incident graph", "Click related nodes to expand context"],
+    actions: [{ label: "View source" }],
+  };
+}
+
+window.GraphScreen = GraphScreen;
+
+
+// Screen 3: Response Workspace
+function WorkspaceScreen({ onBackToGraph }) {
+  const [tasks, setTasks] = React.useState([
+    { id: "t1", status: "done", title: "Sarah Chen paged", meta: "responded 2 min ago", owner: "SC" },
+    { id: "t2", status: "progress", title: "Roll back Deploy #4521", meta: "ETA 8 min · 62% complete", owner: "MJ" },
+    { id: "t3", status: "progress", title: "Shift traffic to backup cluster", meta: "in progress · 34%", owner: "MJ" },
+    { id: "t4", status: "queued", title: "Validate downstream recovery", meta: "starts after rollback", owner: "LP" },
+    { id: "t5", status: "queued", title: "Notify customer success", meta: "auto-trigger on resolve", owner: "—" },
+  ]);
+
+  const [updateSent, setUpdateSent] = React.useState(false);
+
+  return (
+    <div className="page fade-in">
+      {/* Header */}
+      <div className="row gap-12" style={{ marginBottom: 16 }}>
+        <button className="btn btn-ghost btn-sm" onClick={onBackToGraph} style={{ transform: "scaleX(-1)", padding: 6 }}>{Icon.arrow(13)}</button>
+        <span className="sev-tag">SEV-1</span>
+        <div className="col gap-4" style={{ flex: 1 }}>
+          <div className="row gap-12">
+            <h1 style={{ fontSize: 20 }}>{INCIDENT.title}</h1>
+            <span className="mono muted" style={{ fontSize: 12 }}>{INCIDENT.id}</span>
+          </div>
+          <div className="row gap-8 muted" style={{ fontSize: 12 }}>
+            <span className="row gap-6"><span className="live-dot" /> Active · {INCIDENT.durationMin} min</span>
+            <span className="dim">·</span>
+            <span>Responders: <strong style={{ color: "var(--ink-2)" }}>Sarah Chen, Marcus Johnson, Lisa Park</strong></span>
+            <span className="dim">·</span>
+            <span>Channel: <span className="mono">#inc-2147-api-gw</span></span>
+          </div>
+        </div>
+        <div className="row gap-8">
+          <button className="btn">{Icon.slack(13)} Open war room</button>
+          <button className="btn btn-primary" style={{ background: "var(--green)", borderColor: "var(--green)" }}>
+            {Icon.check(11)} Mark resolved
+          </button>
+        </div>
+      </div>
+
+      <div className="ws-grid">
+        {/* LEFT: Context */}
+        <div className="col gap-16">
+          {/* Root cause hypothesis */}
+          <div className="card card-pad" style={{ borderColor: "var(--red-border)", background: "linear-gradient(180deg, oklch(0.99 0.02 25), var(--surface))" }}>
+            <div className="section-head">
+              <div className="col gap-4">
+                <span className="kicker">Root cause hypothesis</span>
+                <h2>Deploy #4521 introduced rate limiting bug</h2>
+              </div>
+              <span className="chip chip-red">{Icon.alert(10)} Lead</span>
+            </div>
+            <div className="row gap-12" style={{ marginTop: 4 }}>
+              <ConfidenceBar value={0.92} />
+              <span className="dim">·</span>
+              <span className="muted" style={{ fontSize: 12 }}>2 alternative hypotheses available</span>
+            </div>
+            <hr className="divider" />
+            <div className="col gap-8">
+              <span className="kicker">Supporting evidence</span>
+              <ul style={{ margin: 0, paddingLeft: 0, listStyle: "none" }}>
+                {[
+                  { text: "Error spike began at 2:32:14 PM — exact deploy timestamp", cite: "logs:gateway" },
+                  { text: "INC-2034 had identical timing pattern after rate limiter change", cite: "INC-2034" },
+                  { text: "Owner mentioned this work in #api-gateway yesterday", cite: "#api-gateway" },
+                  { text: "Deploy approval ticket noted 'untested edge case'", cite: "JIRA-8821" },
+                ].map((e, i) => (
+                  <li key={i} style={{ display: "flex", gap: 10, padding: "8px 0", borderBottom: i < 3 ? "1px solid var(--border)" : "none", fontSize: 13 }}>
+                    <span style={{ color: "var(--red)", marginTop: 2 }}>•</span>
+                    <span style={{ flex: 1 }}>{e.text}</span>
+                    <Cite>{e.cite}</Cite>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Timeline */}
+          <div className="card card-pad">
+            <div className="section-head">
+              <div className="col gap-4">
+                <h3>Timeline</h3>
+                <span className="muted" style={{ fontSize: 12 }}>Auto-generated from logs, deploys, pages</span>
+              </div>
+              <span className="chip"><span className="ai-badge" style={{ fontSize: 9 }}>AUTO</span></span>
+            </div>
+            <div className="tl">
+              <div className="tl-item">
+                <div className="tl-time">2:32 PM PT</div>
+                <div className="tl-title">Deploy #4521 shipped to API Gateway prod</div>
+                <div className="tl-meta">Sarah Chen · feat/rate-limiter-v2</div>
+              </div>
+              <div className="tl-item orange">
+                <div className="tl-time">2:32:14 PM PT</div>
+                <div className="tl-title">Error rate climbs from 0.04% → 1.8%</div>
+                <div className="tl-meta">Gateway latency p99 doubles</div>
+              </div>
+              <div className="tl-item red">
+                <div className="tl-time">2:47 PM PT</div>
+                <div className="tl-title">Sev-1 declared by Alex Rodriguez</div>
+                <div className="tl-meta">Error rate 2.3% · checkout flow degraded</div>
+              </div>
+              <div className="tl-item blue">
+                <div className="tl-time">2:48 PM PT</div>
+                <div className="tl-title">Glean assembled incident graph</div>
+                <div className="tl-meta">36 nodes · 41 relationships · 87s</div>
+              </div>
+              <div className="tl-item blue">
+                <div className="tl-time">2:49 PM PT</div>
+                <div className="tl-title">Marcus Johnson (on-call) paged</div>
+                <div className="tl-meta">Acknowledged in 14s</div>
+              </div>
+              <div className="tl-item blue">
+                <div className="tl-time">2:53 PM PT</div>
+                <div className="tl-title">Sarah Chen paged (suspected owner)</div>
+                <div className="tl-meta">Responded 2 min ago</div>
+              </div>
+              <div className="tl-item green">
+                <div className="tl-time">2:54 PM PT</div>
+                <div className="tl-title">Rollback of #4521 initiated</div>
+                <div className="tl-meta">ETA 8 min · in progress</div>
+              </div>
+              <div className="tl-item" style={{ paddingBottom: 0 }}>
+                <div className="tl-time dim">— next —</div>
+                <div className="tl-title dim">Validate downstream recovery</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Similar incident */}
+          <div className="card card-pad" style={{ borderColor: "var(--purple-border)" }}>
+            <div className="section-head">
+              <div className="col gap-4">
+                <span className="kicker" style={{ color: "var(--purple-ink)" }}>Similar past incident · 92% match</span>
+                <h3>INC-2034 — Rate limiter regression</h3>
+              </div>
+              <button className="btn btn-sm">{Icon.history(11)} View postmortem</button>
+            </div>
+            <div className="row gap-16" style={{ marginTop: 8 }}>
+              <Stat2 label="Resolved in" value="45 min" />
+              <Stat2 label="Same root cause" value="Yes" tone="purple" />
+              <Stat2 label="Same fix worked" value="Roll back" tone="green" />
+              <Stat2 label="Date" value="Jan 12, 2026" />
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: Actions */}
+        <div className="col gap-16">
+          {/* Active tasks */}
+          <div className="card card-pad">
+            <div className="section-head">
+              <div className="col gap-4">
+                <h3>Active response tasks</h3>
+                <span className="muted" style={{ fontSize: 12 }}>{tasks.filter(t => t.status === "done").length} done · {tasks.filter(t => t.status === "progress").length} in progress · {tasks.filter(t => t.status === "queued").length} queued</span>
+              </div>
+              <button className="btn btn-sm">{Icon.plus(11)} Add task</button>
+            </div>
+            <div>
+              {tasks.map(t => (
+                <div key={t.id} className="task">
+                  <StatusGlyph kind={t.status} />
+                  <div className="col" style={{ flex: 1 }}>
+                    <div className="task-title">{t.title}</div>
+                    <div className="task-meta">{t.meta}</div>
+                  </div>
+                  <div className="row gap-6">
+                    {t.owner !== "—" && <Avatar initials={t.owner} color={t.status === "done" ? "green" : "blue"} size={22} />}
+                    <button className="btn btn-sm btn-ghost">{Icon.arrow(11)}</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Leadership update */}
+          <div className="card card-pad">
+            <div className="section-head">
+              <div className="col gap-4">
+                <h3>Leadership update</h3>
+                <span className="muted" style={{ fontSize: 12 }}>Auto-drafted from current state</span>
+              </div>
+              <span className="ai-badge">GLEAN AI</span>
+            </div>
+            <div className="update-card">
+              <div className="label-row">
+                <span className="kicker" style={{ fontSize: 10 }}>To</span>
+                <span style={{ fontSize: 12, fontWeight: 500 }}>eng-leadership@ · #incidents</span>
+              </div>
+              <div className="label-row">
+                <span className="kicker" style={{ fontSize: 10 }}>Subject</span>
+                <span style={{ fontSize: 12, fontWeight: 500 }}>Sev-1 update — API Gateway timeouts (INC-2147)</span>
+              </div>
+              <hr className="divider" style={{ margin: "10px 0" }} />
+              <p style={{ margin: 0 }}>
+                <strong>Sev-1: API Gateway timeouts.</strong> Root cause identified: Deploy #4521
+                introduced a rate limiter bug (92% confidence, matches INC-2034). Rollback in
+                progress, ETA <strong>8 minutes</strong>. Customer impact:{" "}
+                <strong>2.3% of API requests</strong>, checkout flow degraded.
+              </p>
+              <p style={{ margin: "10px 0 0" }}>
+                Responders: Sarah Chen (owner), Marcus Johnson (on-call SRE), Lisa Park
+                (checkout). Next update at <span className="mono">3:05 PM PT</span> or on resolution.
+              </p>
+            </div>
+            <div className="row gap-8" style={{ marginTop: 12 }}>
+              <button
+                className="btn btn-primary"
+                style={{ flex: 1, justifyContent: "center", background: updateSent ? "var(--green)" : undefined, borderColor: updateSent ? "var(--green)" : undefined }}
+                onClick={() => setUpdateSent(true)}
+                disabled={updateSent}
+              >
+                {updateSent ? <>{Icon.check(11)} Update sent</> : <>{Icon.send(13)} Send update</>}
+              </button>
+              <button className="btn">Edit draft</button>
+            </div>
+          </div>
+
+          {/* Postmortem starter */}
+          <div className="card card-pad">
+            <div className="section-head">
+              <div className="col gap-4">
+                <h3>Postmortem starter</h3>
+                <span className="muted" style={{ fontSize: 12 }}>Pre-filled from incident graph</span>
+              </div>
+              <span className="chip">Draft</span>
+            </div>
+            <div className="col gap-8">
+              <PostmortemRow label="Summary" filled />
+              <PostmortemRow label="Timeline" filled count="8 events" />
+              <PostmortemRow label="Root cause" filled />
+              <PostmortemRow label="Action items" count="3 suggested" />
+              <PostmortemRow label="Lessons learned" />
+            </div>
+            <div className="row gap-8" style={{ marginTop: 14 }}>
+              <button className="btn" style={{ flex: 1, justifyContent: "center" }}>{Icon.jira(13)} Create JIRA ticket</button>
+              <button className="btn" style={{ flex: 1, justifyContent: "center" }}>{Icon.doc(13)} Open in Confluence</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Stat2({ label, value, tone }) {
+  const ink = { purple: "var(--purple-ink)", green: "var(--green-ink)", red: "var(--red-ink)" }[tone];
+  return (
+    <div className="col gap-4" style={{ flex: 1 }}>
+      <span className="kicker">{label}</span>
+      <span style={{ fontSize: 16, fontWeight: 600, color: ink || "var(--ink)" }}>{value}</span>
+    </div>
+  );
+}
+
+function PostmortemRow({ label, filled, count }) {
+  return (
+    <div className="row gap-12" style={{ padding: "10px 12px", border: "1px solid var(--border)", borderRadius: 8, background: filled ? "var(--surface)" : "var(--surface-2)" }}>
+      <StatusGlyph kind={filled ? "done" : "queued"} />
+      <span style={{ fontSize: 13, fontWeight: 500, flex: 1 }}>{label}</span>
+      {count && <span className="mono muted" style={{ fontSize: 11 }}>{count}</span>}
+      <span className="muted" style={{ fontSize: 12 }}>{filled ? "Pre-filled" : "Needs input"}</span>
+    </div>
+  );
+}
+
+window.WorkspaceScreen = WorkspaceScreen;
+
+
+// Main App — boots after data/cockpit/graph/workspace load
+function App() {
+  const [screen, setScreen] = React.useState("cockpit");
+
+  const screens = [
+    { id: "cockpit", label: "Cockpit", num: "01", icon: Icon.cockpit(13) },
+    { id: "graph", label: "Incident Graph", num: "02", icon: Icon.graph(13) },
+    { id: "workspace", label: "Response Workspace", num: "03", icon: Icon.workspace(13) },
+  ];
+
+  return (
+    <div className="app">
+      <div className="topbar">
+        <div className="brand">
+          <div className="brand-mark">G</div>
+          <span>Glean</span>
+          <span className="brand-product">Incident Command OS</span>
+        </div>
+
+        <div className="nav">
+          {screens.map(s => (
+            <button
+              key={s.id}
+              className={screen === s.id ? "active" : ""}
+              onClick={() => setScreen(s.id)}
+              data-screen-label={`${s.num} ${s.label}`}
+            >
+              <span className="step-num">{s.num}</span>
+              {s.icon}
+              {s.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="topbar-right">
+          <span className="row gap-6">
+            <span className="live-dot"></span>
+            <span><strong style={{color:"var(--red-ink)"}}>1 active Sev-1</strong></span>
+          </span>
+          <span className="dim">·</span>
+          <span className="mono">2:55 PM PT</span>
+          <span style={{width: 1, height: 20, background: "var(--border)", margin: "0 4px"}}></span>
+          <div className="avatar">AR</div>
+        </div>
+      </div>
+
+      <div data-screen-label={screens.find(s => s.id === screen)?.num + " " + screens.find(s => s.id === screen)?.label}>
+        {screen === "cockpit" && <CockpitScreen onOpenGraph={() => setScreen("graph")} />}
+        {screen === "graph" && <GraphScreen onOpenWorkspace={() => setScreen("workspace")} />}
+        {screen === "workspace" && <WorkspaceScreen onBackToGraph={() => setScreen("graph")} />}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+  </script>
+</body>
+</html>
